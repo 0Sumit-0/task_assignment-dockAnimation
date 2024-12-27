@@ -75,7 +75,7 @@ class _DockState extends State<Dock> {
     return getPropertyValue(
       index: index,
       baseValue: baseItemHeight,
-      maxValue: 55.0,
+      maxValue: 57.0,
       nonHoveredMaxValue: 50.0,
     );
   }
@@ -84,8 +84,8 @@ class _DockState extends State<Dock> {
     return getPropertyValue(
       index: index,
       baseValue: baseTranslationY,
-      maxValue: -11.0,
-      nonHoveredMaxValue: -8.0,
+      maxValue: -15.0,
+      nonHoveredMaxValue: -10.0,
     );
   }
 
@@ -206,7 +206,27 @@ class _DockState extends State<Dock> {
                             draggedIndex = index;
                           });
                         },
-                        feedback: _buildAnimatedContainer(index),
+                        feedback: AnimatedContainer(
+                          duration: const Duration(milliseconds: 100),
+                          curve: Curves.fastEaseInToSlowEaseOut,
+                          transform: Matrix4.identity()
+                            ..translate(
+                              getShiftOffset(index),
+                              getTranslationY(index),
+                              0.0,
+                            ),
+                          height: getScaledSize(index)+5,
+                          width: getScaledSize(index)+5,
+                          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                          decoration: BoxDecoration(
+                            color: _colors[index % _colors.length],
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Icon(
+                            _items[index],
+                            color: Colors.white,
+                          ),
+                        ),
                         childWhenDragging: AnimatedContainer(
                           duration: const Duration(milliseconds: 100),
                           curve: Curves.slowMiddle,
